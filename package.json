@@ -1,0 +1,29 @@
+{
+  "name": "storage_helper",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "main": "./dist/storage_helper.umd.cjs",
+  "module": "./dist/storage_helper.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/storage_helper.js",
+      "require": "./dist/storage_helper.umd.cjs"
+    }
+  },
+  "dependencies": {
+    "async-mutex": "^0.4.0",
+    "fs-extra": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.18.36",
+    "vite": "^4.1.1",
+    "vite-plugin-dts": "^1.7.2"
+  }
+}
