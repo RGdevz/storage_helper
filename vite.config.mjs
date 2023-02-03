@@ -10,10 +10,13 @@ export default defineConfig( {
 
    build: {
 
+
+
     rollupOptions: {
+     inlineDynamicImports: true,
      // make sure to externalize deps that shouldn't be bundled
      // into your library
-     external: ['async-mutex','fs-extra'],
+     external: ['async-mutex','fs-extra',"node:path",'path'],
 
     },
 
@@ -26,8 +29,7 @@ export default defineConfig( {
    fileName: 'storage_helper',
   },
 
-  target: 'esnext',
-
+    target: "node14",
  },
 
 

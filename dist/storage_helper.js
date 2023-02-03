@@ -1,12 +1,13 @@
+import r from "path";
 import * as s from "fs-extra";
-import { Mutex as n } from "async-mutex";
-const r = {}, o = {
+import { Mutex as o } from "async-mutex";
+const n = {
   array: () => Array(),
   string: () => String(),
   number: () => Number()
 };
-class l {
-  mutex = new n();
+class h {
+  mutex = new o();
   scheme;
   constructor(t) {
     this.scheme = t;
@@ -34,7 +35,7 @@ class l {
     );
   }
   init_empty_value(t) {
-    return o[this.scheme[t]]();
+    return n[this.scheme[t]]();
   }
   async get_value(t) {
     let a = (await this.get_db())[t];
@@ -46,5 +47,5 @@ class l {
   }
 }
 export {
-  l as storage_helper
+  h as storage_helper
 };
