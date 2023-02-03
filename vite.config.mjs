@@ -22,7 +22,7 @@ export default defineConfig( {
    // Could also be a dictionary or array of multiple entry points
    entry: resolve(__dirname, 'src/index.ts'),
    name: 'storage_helper',
-   // the proper extensions will be added
+   formats: ['es', 'cjs'],
    fileName: 'storage_helper',
   },
 
