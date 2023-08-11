@@ -18,18 +18,24 @@ export class storage_helper<database_entries extends Record<string, any>>{
 
 	private mutex = new Mutex()
 	private readonly scheme:Record<keyof database_entries, keyof typeof obj_initiator>
+	private readonly db_path:string
 
 
 
- constructor(scheme:Record<keyof database_entries, keyof typeof obj_initiator>) {
+ constructor(scheme:Record<keyof database_entries, keyof typeof obj_initiator>,db_path?:string) {
  this.scheme = scheme
+	this.db_path = db_path || process.cwd()
 	}
 
 
 
+	 private get_db_path(){
+		return path.join(this.db_path,'database.json')
+	 }
+
 
 	  public async get_db():Promise<database_entries>{
-		 const the_path = path.resolve('database.json')
+		 const the_path = this.get_db_path()
 
 		 await fs.ensureFile(the_path)
 
@@ -55,7 +61,7 @@ export class storage_helper<database_entries extends Record<string, any>>{
 
 		await this.mutex.runExclusive(async () => {
 
-		const the_path = path.resolve('database.json')
+		const the_path = this.get_db_path()
 		const backup = path.join(the_path,'..','database_bak.json')
 
 		if (await fs.pathExists(the_path)){

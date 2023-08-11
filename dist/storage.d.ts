@@ -6,7 +6,9 @@ declare const obj_initiator: {
 export declare class storage_helper<database_entries extends Record<string, any>> {
     private mutex;
     private readonly scheme;
-    constructor(scheme: Record<keyof database_entries, keyof typeof obj_initiator>);
+    private readonly db_path;
+    constructor(scheme: Record<keyof database_entries, keyof typeof obj_initiator>, db_path?: string);
+    private get_db_path;
     get_db(): Promise<database_entries>;
     private save_db;
     private init_empty_value;
