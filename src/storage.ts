@@ -39,6 +39,8 @@ export class storage_helper<database_entries extends Record<string, any>>{
 
 		 await fs.ensureFile(the_path)
 
+			if (!await fs.pathExists(the_path)) throw new Error('failed to create db file')
+
 			try{
 
 			return JSON.parse(await fs.readFile(the_path, 'utf8'))
