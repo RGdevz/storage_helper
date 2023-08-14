@@ -18,7 +18,7 @@
     }
   },
   "dependencies": {
-    "async-mutex": "^0.4.0",
+    "async-mutex": "file:./async-mutex",
     "fs-extra": "^11.1.0"
   },
   "devDependencies": {

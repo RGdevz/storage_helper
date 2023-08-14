@@ -16,7 +16,7 @@ export default defineConfig( {
      inlineDynamicImports: true,
      // make sure to externalize deps that shouldn't be bundled
      // into your library
-     external: ['async-mutex','fs-extra',"node:path",'path'],
+     external: ['fs-extra',"node:path",'path','tslib'],
 
     },
 
