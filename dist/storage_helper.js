@@ -1,6 +1,6 @@
 import path from "path";
 import * as atomically from "atomically";
-import { ensureFile, pathExists, copyFile, move } from "fs-extra";
+import { ensureFile, pathExists } from "fs-extra";
 const obj_initiator = {
   array: () => Array(),
   string: () => String(),
@@ -24,22 +24,13 @@ class storage_helper {
     try {
       return JSON.parse(await atomically.readFile(the_path, "utf8"));
     } catch (e) {
+      console.log((e == null ? void 0 : e.message) ?? e.toString());
     }
     return Object();
   }
   async save_db(db) {
     const the_path = this.getDBPath();
-    const backup = path.join(the_path, "..", "database_bak.json");
-    if (await pathExists(the_path)) {
-      await copyFile(the_path, backup);
-    }
     await atomically.writeFile(the_path, JSON.stringify(db));
-    try {
-      JSON.parse(await atomically.readFile(the_path, "utf8"));
-    } catch (e) {
-      console.error("rollback", e.message ?? e.toString());
-      await move(backup, the_path, { overwrite: true });
-    }
   }
   init_empty_value(key) {
     return obj_initiator[this.scheme[key]]();

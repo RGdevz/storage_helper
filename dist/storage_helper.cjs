@@ -43,22 +43,13 @@ class storage_helper {
     try {
       return JSON.parse(await atomically__namespace.readFile(the_path, "utf8"));
     } catch (e) {
+      console.log((e == null ? void 0 : e.message) ?? e.toString());
     }
     return Object();
   }
   async save_db(db) {
     const the_path = this.getDBPath();
-    const backup = path.join(the_path, "..", "database_bak.json");
-    if (await fsExtra.pathExists(the_path)) {
-      await fsExtra.copyFile(the_path, backup);
-    }
     await atomically__namespace.writeFile(the_path, JSON.stringify(db));
-    try {
-      JSON.parse(await atomically__namespace.readFile(the_path, "utf8"));
-    } catch (e) {
-      console.error("rollback", e.message ?? e.toString());
-      await fsExtra.move(backup, the_path, { overwrite: true });
-    }
   }
   init_empty_value(key) {
     return obj_initiator[this.scheme[key]]();

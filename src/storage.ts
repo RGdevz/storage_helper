@@ -48,7 +48,7 @@ export class storage_helper<database_entries extends Record<string, any>>{
 			return JSON.parse(await atomically.readFile(the_path, 'utf8'))
 
 			}catch (e) {
-		/* console.log(e.message ?? e.toString())*/
+		 console.log(e?.message ?? e.toString())
 			}
 
 	 	return Object()
@@ -62,31 +62,9 @@ export class storage_helper<database_entries extends Record<string, any>>{
 
 		private async save_db(db:database_entries){
 
-
-
 		const the_path = this.getDBPath()
-		const backup = path.join(the_path,'..','database_bak.json')
-
-		if (await pathExists(the_path)){
-
-	 await copyFile(the_path,backup)
-		}
 
 		await atomically.writeFile(the_path,JSON.stringify(db))
-
-		try {
-		JSON.parse(await atomically.readFile(the_path, 'utf8'))
-
-		}catch (e) {
-
-		//rollback
-
-		console.error('rollback',e.message ?? e.toString())
-
-		await move(backup,the_path,{overwrite:true})
-
-		}
-
 
 		}
 
