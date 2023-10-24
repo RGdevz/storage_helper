@@ -2,6 +2,11 @@
 import { resolve } from 'path'
 import dts from 'vite-plugin-dts';
 import { defineConfig } from 'vite'
+
+import builtinModules from "builtin-modules";
+
+const wtf = builtinModules.map(x=>`node:${x}`)
+
 export default defineConfig( {
 
 
@@ -16,7 +21,7 @@ export default defineConfig( {
      inlineDynamicImports: true,
      // make sure to externalize deps that shouldn't be bundled
      // into your library
-     external: ['fs-extra',"node:path",'/node_modules/','node:util','node:fs'],
+     external: [builtinModules,...wtf],
 
     },
 
