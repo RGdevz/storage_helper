@@ -1,6 +1,6 @@
+import path from "path";
 import * as atomically from "atomically";
 import { ensureFile, pathExists, copyFile, move } from "fs-extra";
-const path = {};
 const obj_initiator = {
   array: () => Array(),
   string: () => String(),

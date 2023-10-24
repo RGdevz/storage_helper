@@ -13,7 +13,13 @@ const dependencies = Object.keys({
 );
 
 
-const wtf = builtinModules.map(x=>`node:${x}`)
+const strings = builtinModules.map(x=>`node:${x}`)
+
+const list = [...builtinModules,...strings,...dependencies]
+
+for (const item of list){
+if (typeof item !== 'string') throw new Error('bad list')
+}
 
 export default defineConfig( {
 
@@ -29,7 +35,7 @@ export default defineConfig( {
      inlineDynamicImports: true,
      // make sure to externalize deps that shouldn't be bundled
      // into your library
-     external: [builtinModules,...wtf,...dependencies],
+     external: list,
 
     },
 

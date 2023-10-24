@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
+const path = require("path");
 const atomically = require("atomically");
 const fsExtra = require("fs-extra");
 function _interopNamespaceDefault(e) {
@@ -19,7 +20,6 @@ function _interopNamespaceDefault(e) {
   return Object.freeze(n);
 }
 const atomically__namespace = /* @__PURE__ */ _interopNamespaceDefault(atomically);
-const path = {};
 const obj_initiator = {
   array: () => Array(),
   string: () => String(),
