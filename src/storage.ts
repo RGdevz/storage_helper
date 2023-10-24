@@ -1,6 +1,7 @@
 import path from "path";
-import * as fs from 'fs-extra'
-import {Mutex} from 'async-mutex';
+import * as atomically from 'atomically'
+import {ensureFile,pathExists,copyFile,move} from 'fs-extra'
+
 
 
 
@@ -16,7 +17,7 @@ export class storage_helper<database_entries extends Record<string, any>>{
 
 
 
-	private mutex = new Mutex()
+
 	private readonly scheme:Record<keyof database_entries, keyof typeof obj_initiator>
 	private readonly db_path:string
 
@@ -29,21 +30,22 @@ export class storage_helper<database_entries extends Record<string, any>>{
 
 
 
-	 private get_db_path(){
+	 public getDBPath(){
 		return path.join(this.db_path,'database.json')
 	 }
 
 
+
 	  public async get_db():Promise<database_entries>{
-		 const the_path = this.get_db_path()
+		 const the_path = this.getDBPath()
 
-		 await fs.ensureFile(the_path)
+		 await ensureFile(the_path)
 
-			if (!await fs.pathExists(the_path)) throw new Error('failed to create db file')
+			if (!await pathExists(the_path)) throw new Error('failed to create db file')
 
 			try{
 
-			return JSON.parse(await fs.readFile(the_path, 'utf8'))
+			return JSON.parse(await atomically.readFile(the_path, 'utf8'))
 
 			}catch (e) {
 		/* console.log(e.message ?? e.toString())*/
@@ -61,20 +63,19 @@ export class storage_helper<database_entries extends Record<string, any>>{
 		private async save_db(db:database_entries){
 
 
-		await this.mutex.runExclusive(async () => {
 
-		const the_path = this.get_db_path()
+		const the_path = this.getDBPath()
 		const backup = path.join(the_path,'..','database_bak.json')
 
-		if (await fs.pathExists(the_path)){
+		if (await pathExists(the_path)){
 
-	 await fs.copyFile(the_path,backup)
+	 await copyFile(the_path,backup)
 		}
 
-		await fs.writeFile(the_path,JSON.stringify(db),{flag: 'w+'})
+		await atomically.writeFile(the_path,JSON.stringify(db))
 
 		try {
-		JSON.parse(await fs.readFile(the_path, 'utf8'))
+		JSON.parse(await atomically.readFile(the_path, 'utf8'))
 
 		}catch (e) {
 
@@ -82,11 +83,10 @@ export class storage_helper<database_entries extends Record<string, any>>{
 
 		console.error('rollback',e.message ?? e.toString())
 
-		await fs.move(backup,the_path,{overwrite:true})
+		await move(backup,the_path,{overwrite:true})
 
 		}
-		}
-		)
+
 
 		}
 

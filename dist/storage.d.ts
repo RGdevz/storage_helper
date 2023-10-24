@@ -4,11 +4,10 @@ declare const obj_initiator: {
     number: () => number;
 };
 export declare class storage_helper<database_entries extends Record<string, any>> {
-    private mutex;
     private readonly scheme;
     private readonly db_path;
     constructor(scheme: Record<keyof database_entries, keyof typeof obj_initiator>, db_path?: string);
-    private get_db_path;
+    getDBPath(): string;
     get_db(): Promise<database_entries>;
     private save_db;
     private init_empty_value;
