@@ -16,7 +16,7 @@ export default defineConfig( {
      inlineDynamicImports: true,
      // make sure to externalize deps that shouldn't be bundled
      // into your library
-     external: [/node_modules/],
+     external: ['fs-extra',"node:path",'/node_modules/','node:util','node:fs'],
 
     },
 
