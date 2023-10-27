@@ -24,7 +24,6 @@ class storage_helper {
     try {
       return JSON.parse(await atomically.readFile(the_path, "utf8"));
     } catch (e) {
-      console.log((e == null ? void 0 : e.message) ?? e.toString());
     }
     return Object();
   }

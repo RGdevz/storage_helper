@@ -48,7 +48,7 @@ export class storage_helper<database_entries extends Record<string, any>>{
 			return JSON.parse(await atomically.readFile(the_path, 'utf8'))
 
 			}catch (e) {
-		 console.log(e?.message ?? e.toString())
+		 /*console.log('[Warning from storage_helper]',e?.message ?? e.toString())*/
 			}
 
 	 	return Object()
