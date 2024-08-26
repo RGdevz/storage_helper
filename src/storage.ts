@@ -5,7 +5,7 @@ import {ensureFile,pathExists,copyFile,move} from 'fs-extra'
 
 
 
-	 const obj_initiator = {
+	 const objInitiator = {
 		array:()=>Array(),
 		string:()=>String(),
 		number:()=>Number()
@@ -13,30 +13,28 @@ import {ensureFile,pathExists,copyFile,move} from 'fs-extra'
 
 
 
-export class storage_helper<database_entries extends Record<string, any>>{
+
+export class storage_helper<databaseEntries extends Record<string, any>>{
+
+	private readonly scheme:Record<keyof databaseEntries, keyof typeof objInitiator>
+	private readonly databaseFilePath:string
 
 
-
-
-	private readonly scheme:Record<keyof database_entries, keyof typeof obj_initiator>
-	private readonly db_path:string
-
-
-
- constructor(scheme:Record<keyof database_entries, keyof typeof obj_initiator>,db_path?:string) {
+ constructor(scheme:Record<keyof databaseEntries, keyof typeof objInitiator>, dataPath:string) {
  this.scheme = scheme
-	this.db_path = db_path || process.cwd()
+	if (!dataPath) throw new Error('no database file path')
+	this.databaseFilePath = dataPath
 	}
 
 
 
 	 public getDBPath(){
-		return path.join(this.db_path,'database.json')
+		return path.join(this.databaseFilePath,'database.json')
 	 }
 
 
 
-	  public async get_db():Promise<database_entries>{
+	  public async getDatabase():Promise<databaseEntries>{
 		 const the_path = this.getDBPath()
 
 		 await ensureFile(the_path)
@@ -60,7 +58,7 @@ export class storage_helper<database_entries extends Record<string, any>>{
 
 
 
-		private async save_db(db:database_entries){
+		private async saveDatabase(db:databaseEntries){
 
 		const the_path = this.getDBPath()
 
@@ -75,9 +73,9 @@ export class storage_helper<database_entries extends Record<string, any>>{
 
 
 
-		private init_empty_value(key:keyof database_entries){
+		private initEmptyValue(key:keyof databaseEntries){
 
-		return obj_initiator[this.scheme[key]]()
+		return objInitiator[this.scheme[key]]()
 
 		}
 
@@ -87,14 +85,14 @@ export class storage_helper<database_entries extends Record<string, any>>{
 
 
 
- 	public async get_value<the_key extends keyof database_entries>(key:the_key){
+ 	public async getValue<the_key extends keyof databaseEntries>(key:the_key){
 
-		const db = await this.get_db()
+		const db = await this.getDatabase()
 		let value = db[key]
 
 		if (value == undefined){
 		//@ts-ignore
-		value = this.init_empty_value(key)
+		value = this.initEmptyValue(key)
 		}
 
 		return value
@@ -106,12 +104,12 @@ export class storage_helper<database_entries extends Record<string, any>>{
 
 
 
-		public async set_value<the_key extends keyof  database_entries>(key:the_key, value: database_entries[the_key]){
+		public async setValue<the_key extends keyof  databaseEntries>(key:the_key, value: databaseEntries[the_key]){
 
-		const db = await this.get_db()
+		const db = await this.getDatabase()
 		db[key] = value
 
-		await this.save_db(db)
+		await this.saveDatabase(db)
 
 		}
 

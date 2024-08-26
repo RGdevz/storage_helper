@@ -20,22 +20,24 @@ function _interopNamespaceDefault(e) {
   return Object.freeze(n);
 }
 const atomically__namespace = /* @__PURE__ */ _interopNamespaceDefault(atomically);
-const obj_initiator = {
+const objInitiator = {
   array: () => Array(),
   string: () => String(),
   number: () => Number()
 };
 class storage_helper {
   scheme;
-  db_path;
-  constructor(scheme, db_path) {
+  databaseFilePath;
+  constructor(scheme, dataPath) {
     this.scheme = scheme;
-    this.db_path = db_path || process.cwd();
+    if (!dataPath)
+      throw new Error("no database file path");
+    this.databaseFilePath = dataPath;
   }
   getDBPath() {
-    return path.join(this.db_path, "database.json");
+    return path.join(this.databaseFilePath, "database.json");
   }
-  async get_db() {
+  async getDatabase() {
     const the_path = this.getDBPath();
     await fsExtra.ensureFile(the_path);
     if (!await fsExtra.pathExists(the_path))
@@ -46,25 +48,25 @@ class storage_helper {
     }
     return Object();
   }
-  async save_db(db) {
+  async saveDatabase(db) {
     const the_path = this.getDBPath();
     await atomically__namespace.writeFile(the_path, JSON.stringify(db));
   }
-  init_empty_value(key) {
-    return obj_initiator[this.scheme[key]]();
+  initEmptyValue(key) {
+    return objInitiator[this.scheme[key]]();
   }
-  async get_value(key) {
-    const db = await this.get_db();
+  async getValue(key) {
+    const db = await this.getDatabase();
     let value = db[key];
     if (value == void 0) {
-      value = this.init_empty_value(key);
+      value = this.initEmptyValue(key);
     }
     return value;
   }
-  async set_value(key, value) {
-    const db = await this.get_db();
+  async setValue(key, value) {
+    const db = await this.getDatabase();
     db[key] = value;
-    await this.save_db(db);
+    await this.saveDatabase(db);
   }
 }
 exports.storage_helper = storage_helper;
