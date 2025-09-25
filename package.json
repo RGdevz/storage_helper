@@ -17,7 +17,7 @@
     ".": {
       "import": "./dist/storage.cjs",
       "require": "./dist/storage.cjs",
-      "types": "./lib/index.d.ts"
+      "types": "./dist/index.d.ts"
     }
   },
   "dependencies": {
