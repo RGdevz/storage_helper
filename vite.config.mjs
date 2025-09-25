@@ -44,7 +44,7 @@ minify:false,
    // Could also be a dictionary or array of multiple entry points
    entry: resolve(__dirname, 'src/index.ts'),
    name: 'storage_helper',
-   formats: ['es', 'cjs'],
+   formats: [ 'cjs'],
    fileName: 'storage_helper',
   },
 

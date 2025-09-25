@@ -6,15 +6,16 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "vite build"
   },
+  "files": ["dist"],
   "author": "",
   "license": "ISC",
-  "main": "./dist/storage_helper.umd.cjs",
-  "module": "./dist/storage_helper.js",
+  "main": "./dist/storage_helper.cjs",
+  "module": "./dist/storage_helper.cjs",
   "types": "./dist/index.d.ts",
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/storage_helper.js",
+      "import": "./dist/storage_helper.cjs",
       "require": "./dist/storage_helper.cjs"
     }
   },
