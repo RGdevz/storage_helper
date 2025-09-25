@@ -9,14 +9,15 @@
   "files": ["dist"],
   "author": "",
   "license": "ISC",
-  "main": "./dist/storage.cjs",
-  "module": "./dist/storage.cjs",
+
+
   "types": "./dist/index.d.ts",
   "type": "module",
   "exports": {
     ".": {
       "import": "./dist/storage.cjs",
-      "require": "./dist/storage.cjs"
+      "require": "./dist/storage.cjs",
+      "types": "./lib/index.d.ts"
     }
   },
   "dependencies": {
