@@ -45,7 +45,7 @@ minify:false,
    entry: resolve(__dirname, 'src/index.ts'),
    name: 'storage_helper',
    formats: [ 'cjs'],
-   fileName: 'storage_helper',
+   fileName: 'storage',
   },
 
     target: "node14",
